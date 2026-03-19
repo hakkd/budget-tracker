@@ -21,4 +21,10 @@ def create_app(config_class: type[Config] = Config) -> Flask:
         db.create_all()
         print("Database initialized.")
 
+    @app.cli.command("reset-db")
+    def reset_db() -> None:
+        db.drop_all()
+        db.create_all()
+        print("Database reset (all tables dropped and recreated).")
+
     return app

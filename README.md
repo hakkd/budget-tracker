@@ -53,6 +53,26 @@ docker compose exec web flask --app wsgi:app init-db
 
 The API is available at `http://localhost:5000`.
 
+### Optional Makefile shortcuts
+
+```bash
+make up
+make init-db
+make reset-db
+make logs
+```
+
+Other useful commands:
+
+```bash
+make ps
+make shell
+make restart
+make down
+```
+
+`make reset-db` is destructive and will drop all existing tables before recreating them.
+
 ## Run locally (without Docker app container)
 
 ### 1) Start PostgreSQL
