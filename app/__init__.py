@@ -2,7 +2,7 @@ from flask import Flask
 
 from config import Config
 from .extensions import db, migrate
-from .routes import main_bp
+from .routes.main import main_bp
 
 
 def create_app(config_class: type[Config] = Config) -> Flask:
