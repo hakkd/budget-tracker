@@ -207,4 +207,4 @@ marimo/_lsp/
 __marimo__/
 
 # confidential data
-test_data_anonymized/*
+test_data_confidential
