@@ -42,14 +42,17 @@ def scrub_data(
     """
     Read a statement CSV and hash sensitive columns.
     """
-    df = pd.read_csv(filename)
+    # Read all columns as strings to avoid type inference changing their textual form.
+    df = pd.read_csv(filename, dtype=str)
 
     rule = SCRUB_RULES.get((institution, statement_kind), ScrubRule())
     excluded_columns = rule.excluded_columns
 
     for column in df.columns:
         if column not in excluded_columns:
-            df[column] = df[column].astype(str).apply(_sha256)
+            series = df[column]
+            mask = series.notna()
+            df.loc[mask, column] = series[mask].apply(_sha256)
 
     return df
 
