@@ -88,6 +88,7 @@ if __name__ == "__main__":
 
     input_path = args.input_dir
     output_path = args.output_dir
+    output_path.mkdir(parents=True, exist_ok=True)
 
     for in_file in input_path.glob(args.pattern):
         df = scrub_data(
