@@ -1,100 +1,145 @@
-import hashlib
-from dataclasses import dataclass, field
-from enum import Enum
-from pathlib import Path
-from typing import Mapping, FrozenSet
-import pandas as pd
 import argparse
+import random
+from enum import Enum
+from datetime import date, timedelta
+from datetime import datetime
+from pathlib import Path
 
-# Example usage:
-# python3 scripts/anonymize_data.py --institution amex --statement-kind credit
+import pandas as pd
 
 
 class Institution(str, Enum):
     AMEX = "amex"
 
 
-class StatementKind(str, Enum):
-    CREDIT = "credit"
-
-
-@dataclass(frozen=True)
-class ScrubRule:
-    excluded_columns: FrozenSet[str] = field(default_factory=frozenset)
-
-
-SCRUB_RULES: Mapping[tuple[Institution, StatementKind], ScrubRule] = {
-    (Institution.AMEX, StatementKind.CREDIT): ScrubRule(
-        excluded_columns=frozenset({"Date", "Date Processed", "Amount"})
-    )
+INSTITUTION_HEADERS: dict[Institution, list[str]] = {
+    Institution.AMEX: [
+        "Date",
+        "Date Processed",
+        "Description",
+        "Card Member",
+        "Account #",
+        "Amount",
+    ]
 }
 
+CARD_MEMBERS = ["Alex Carter", "Jamie Lee", "Taylor Brooks", "Morgan Chen"]
+ACCOUNT_BY_MEMBER = {
+    "Alex Carter": "-91009",
+    "Jamie Lee": "-92015",
+    "Taylor Brooks": "-93022",
+    "Morgan Chen": "-94031",
+}
+MERCHANTS = [
+    "HARBOR MARKET",
+    "NORTHLIGHT CINEMA",
+    "CITYPUMP FUEL",
+    "CEDAR BISTRO",
+    "METRO TRANSIT RELOAD",
+    "MAPLE PHARMACY",
+    "SUNSET AIRLINES",
+    "WESTSIDE BAKERY",
+    "STREAMWAVE MEDIA",
+    "HOMEFIX SERVICES",
+]
+CITIES = ["VANCOUVER", "BURNABY", "NORTH VANCOUVER", "TORONTO", "ONLINE"]
 
-def _sha256(value: str) -> str:
-    return hashlib.sha256(value.encode("utf-8")).hexdigest()
+
+def _format_statement_date(day: date) -> str:
+    return day.strftime("%d %b %Y")
 
 
-def scrub_data(
-    filename: str | Path,
+def _random_purchase_amount(rng: random.Random) -> float:
+    tier = rng.random()
+    if tier < 0.70:
+        return round(rng.uniform(4.0, 120.0), 2)
+    if tier < 0.95:
+        return round(rng.uniform(120.0, 700.0), 2)
+    return round(rng.uniform(700.0, 3200.0), 2)
+
+
+def _synthetic_description(rng: random.Random) -> str:
+    merchant = rng.choice(MERCHANTS)
+    city = rng.choice(CITIES)
+    return f"{merchant} {city}"
+
+
+def generate_statement_rows(
     institution: Institution,
-    statement_kind: StatementKind,
+    row_count: int,
+    seed: int,
 ) -> pd.DataFrame:
-    """
-    Read a statement CSV and hash sensitive columns.
-    """
-    # Read all columns as strings to avoid type inference changing their textual form.
-    df = pd.read_csv(filename, dtype=str)
+    """Generate synthetic statement data with institution-specific headers."""
+    rng = random.Random(seed)
+    start_day = date.today() - timedelta(days=90)
+    headers = INSTITUTION_HEADERS[institution]
+    rows: list[dict[str, str]] = []
 
-    rule = SCRUB_RULES.get((institution, statement_kind), ScrubRule())
-    excluded_columns = rule.excluded_columns
+    for _ in range(row_count):
+        statement_day = start_day + timedelta(days=rng.randint(0, 90))
+        processed_day = statement_day + timedelta(days=rng.randint(0, 2))
+        member = rng.choice(CARD_MEMBERS)
 
-    for column in df.columns:
-        if column not in excluded_columns:
-            series = df[column]
-            mask = series.notna()
-            df.loc[mask, column] = series[mask].apply(_sha256)
+        if rng.random() < 0.08:
+            description = "PAYMENT RECEIVED - THANK YOU"
+            amount = round(-rng.uniform(500.0, 3200.0), 2)
+        else:
+            description = _synthetic_description(rng)
+            amount = _random_purchase_amount(rng)
 
-    return df
+        rows.append(
+            {
+                "Date": _format_statement_date(statement_day),
+                "Date Processed": _format_statement_date(processed_day),
+                "Description": description,
+                "Card Member": member,
+                "Account #": ACCOUNT_BY_MEMBER[member],
+                "Amount": f"{amount:.2f}",
+            }
+        )
+
+    rows.sort(key=lambda row: datetime.strptime(row["Date"], "%d %b %Y"), reverse=True)
+    return pd.DataFrame(rows, columns=headers)
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "-i",
-        "--input-dir",
-        type=Path,
-        help="Input directory",
-        default=Path("test_data_confidential"),
-    )
-    parser.add_argument(
-        "-o",
-        "--output-dir",
-        type=Path,
-        help="Output directory",
-        default=Path("test_data_anonymized"),
+    parser = argparse.ArgumentParser(
+        description="Generate fully synthetic statement CSV data from code-defined institution headers."
     )
     parser.add_argument(
         "--institution",
-        choices=[e.value for e in Institution],
-        required=True,
+        choices=[member.value for member in Institution],
+        default=Institution.AMEX.value,
+        help="Institution profile used to select the generated CSV headers.",
     )
     parser.add_argument(
-        "--statement-kind",
-        choices=[e.value for e in StatementKind],
-        required=True,
+        "-o",
+        "--output-file",
+        type=Path,
+        help="Output CSV file path.",
+        default=Path("test_data_anonymized/activity.csv"),
     )
-    parser.add_argument("-p", "--pattern", help="File name pattern", default="*.csv")
+    parser.add_argument(
+        "--rows",
+        type=int,
+        default=50,
+        help="Number of synthetic rows to generate.",
+    )
+    parser.add_argument(
+        "--seed",
+        type=int,
+        default=42,
+        help="Seed for deterministic output.",
+    )
     args = parser.parse_args()
 
-    input_path = args.input_dir
-    output_path = args.output_dir
-    output_path.mkdir(parents=True, exist_ok=True)
+    institution = Institution(args.institution)
+    output_file = args.output_file
+    output_file.parent.mkdir(parents=True, exist_ok=True)
 
-    for in_file in input_path.glob(args.pattern):
-        df = scrub_data(
-            filename=in_file,
-            institution=Institution(args.institution),
-            statement_kind=StatementKind(args.statement_kind),
-        )
-        out_file = output_path / in_file.name
-        df.to_csv(out_file, index=False)
+    df = generate_statement_rows(
+        institution=institution,
+        row_count=max(1, args.rows),
+        seed=args.seed,
+    )
+    df.to_csv(output_file, index=False)
