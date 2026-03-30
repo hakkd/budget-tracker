@@ -18,6 +18,25 @@ An app for tracking household spending and budgeting.
 
 ## Project structure
 
+- database stores transactions parsed from uploaded statements
+    - avoid duplicates (date, merchant, amount)
+- ML model to categorize transactions
+    - train on existing labelled/categorized spending data
+    - assign confidence to each prediction
+        - medium confidence: assign and flag for review
+        - low confidence: manual review
+    - quality metrics:
+        - track precision/recall
+        - track unknown rate
+        - manual override rate
+    - manual correction overrides merchant map
+    - retrain monthly or after some number of new labels added
+- frontend UI
+    - file upload
+    - charts
+    - spending summaries
+    - projected spend (regression?)
+
 ```
 .
 ├── app/

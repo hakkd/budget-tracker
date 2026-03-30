@@ -117,7 +117,7 @@ if __name__ == "__main__":
         "--output-file",
         type=Path,
         help="Output CSV file path.",
-        default=Path("test_data_anonymized/activity.csv"),
+        default=Path("test_data/activity.csv"),
     )
     parser.add_argument(
         "--rows",
