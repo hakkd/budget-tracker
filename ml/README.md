@@ -24,3 +24,15 @@
 - human review for low confidence predictions
 - retrain monthly
 - version model and category taxonomy together
+
+## Development
+
+### Python Virtual Environment Setup
+
+```
+python -m venv ml
+
+pip install -r requirements.txt
+
+source ml/bin/activate
+```
