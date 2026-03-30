@@ -108,7 +108,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--institution",
-        choices=[member.value for member in Institution],
+        choices=[inst.value for inst in Institution],
         default=Institution.AMEX.value,
         help="Institution profile used to select the generated CSV headers.",
     )
