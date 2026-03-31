@@ -1,0 +1,79 @@
+{
+  "cv": {
+    "n_splits": 5,
+    "macro_f1_mean": 0.4404761904761905,
+    "macro_f1_std": 0.1395652465690747,
+    "macro_f1_per_fold": [
+      0.3833333333333333,
+      0.28095238095238095,
+      0.40476190476190477,
+      0.4333333333333333,
+      0.7
+    ]
+  },
+  "oof_macro_f1": 0.3755952380952381,
+  "classification_report": {
+    "dining out": {
+      "precision": 0.5454545454545454,
+      "recall": 0.6666666666666666,
+      "f1-score": 0.6,
+      "support": 9.0
+    },
+    "entertainment": {
+      "precision": 0.5,
+      "recall": 0.25,
+      "f1-score": 0.3333333333333333,
+      "support": 4.0
+    },
+    "grocery": {
+      "precision": 0.75,
+      "recall": 1.0,
+      "f1-score": 0.8571428571428571,
+      "support": 12.0
+    },
+    "home": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 2.0
+    },
+    "misc. fees": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 2.0
+    },
+    "other": {
+      "precision": 0.5,
+      "recall": 0.5,
+      "f1-score": 0.5,
+      "support": 2.0
+    },
+    "subscriptions": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1-score": 0.0,
+      "support": 1.0
+    },
+    "transportation": {
+      "precision": 0.7142857142857143,
+      "recall": 0.7142857142857143,
+      "f1-score": 0.7142857142857143,
+      "support": 7.0
+    },
+    "accuracy": 0.6410256410256411,
+    "macro avg": {
+      "precision": 0.3762175324675325,
+      "recall": 0.3913690476190476,
+      "f1-score": 0.3755952380952381,
+      "support": 39.0
+    },
+    "weighted avg": {
+      "precision": 0.5617715617715617,
+      "recall": 0.6410256410256411,
+      "f1-score": 0.5902319902319902,
+      "support": 39.0
+    }
+  },
+  "n_train": 39
+}
