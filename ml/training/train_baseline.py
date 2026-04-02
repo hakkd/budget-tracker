@@ -1,8 +1,6 @@
 import json
 import joblib
 import pandas as pd
-import sys
-from pathlib import Path
 from sklearn.compose import ColumnTransformer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.linear_model import LogisticRegression
@@ -11,11 +9,7 @@ from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import StratifiedKFold, cross_validate, cross_val_predict
 
-ML_ROOT = Path(__file__).resolve().parents[1]
-if str(ML_ROOT) not in sys.path:
-    sys.path.insert(0, str(ML_ROOT))
-
-from config import DATA_DIR, PROJECT_ML_ROOT
+from ml.config import DATA_DIR, PROJECT_ML_ROOT
 
 
 TARGET_COL = "category"

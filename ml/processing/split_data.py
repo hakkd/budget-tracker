@@ -1,13 +1,8 @@
 import pandas as pd
-import sys
 from pathlib import Path
 from sklearn.model_selection import train_test_split
 
-ML_ROOT = Path(__file__).resolve().parents[1]
-if str(ML_ROOT) not in sys.path:
-    sys.path.insert(0, str(ML_ROOT))
-
-from config import DATA_DIR, CLEAN_CSV_PATH
+from ml.config import DATA_DIR, CLEAN_CSV_PATH
 
 if __name__ == "__main__":
     df = pd.read_csv(CLEAN_CSV_PATH)
@@ -30,4 +25,4 @@ if __name__ == "__main__":
         test_path,
         index=False,
     )
-    print(f"Validation data written to {test_path} sand has {test.shape[0]} rows")
+    print(f"Test data written to {test_path} sand has {test.shape[0]} rows")
