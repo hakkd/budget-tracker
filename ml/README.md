@@ -30,9 +30,11 @@
 ### Python Virtual Environment Setup
 
 ```
+cd ml
+
 python -m venv ml
 
-pip install -r requirements.txt
-
 source ml/bin/activate
+
+pip install -r requirements.txt
 ```
