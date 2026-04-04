@@ -24,4 +24,4 @@ if __name__ == "__main__":
         test_path,
         index=False,
     )
-    print(f"Test data written to {test_path} sand has {test.shape[0]} rows")
+    print(f"Test data written to {test_path} and has {test.shape[0]} rows")
