@@ -102,9 +102,6 @@ def main() -> None:
     with metrics_path.open("w", encoding="utf-8") as f:
         json.dump(metrics, f, indent=2)
 
-    with metrics_path.open("r", encoding="utf-8") as f:
-        json.load(f)
-
     print(f"Saved pipeline: {pipeline_path}")
     print(f"Saved metrics : {metrics_path}")
     print(f"CV Macro F1   : {metrics['cv']['macro_f1_mean']:.4f}")
