@@ -21,13 +21,13 @@ if __name__ == "__main__":
 
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    pd.DataFrame(train).to_csv(
+    train.to_csv(
         train_path,
         index=False,
     )
     print(f"Training data written to {train_path} and has {train.shape[0]} rows")
 
-    pd.DataFrame(test).to_csv(
+    test.to_csv(
         test_path,
         index=False,
     )
