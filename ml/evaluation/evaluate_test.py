@@ -40,7 +40,6 @@ if __name__ == "__main__":
     accuracy = float(accuracy_score(y_test, y_pred))
 
     labels = sorted(set(y_test).union(set(y_pred)))
-    print(labels)
     cm = confusion_matrix(y_test, y_pred, labels=labels)
     cm_df = pd.DataFrame(cm, index=labels, columns=labels)
     cm_df.index.name = "actual"
