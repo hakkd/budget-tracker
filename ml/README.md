@@ -38,3 +38,8 @@ source ml/bin/activate
 
 pip install -r requirements.txt
 ```
+
+### Run Scripts
+
+1. `source ml/ml/bin/activate`
+2. `python -m ml.scripts.process_data_and_train_baseline_model`
