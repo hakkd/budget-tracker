@@ -7,6 +7,7 @@ if __name__ == "__main__":
     df = pd.read_csv(CLEAN_CSV_PATH)
 
     stratify = df["category"] if "category" in df.columns else None
+
     train, test = train_test_split(
         df,
         test_size=0.30,
