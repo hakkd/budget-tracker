@@ -1,0 +1,9 @@
+{
+  "split": "held_out_test",
+  "n_test": 59,
+  "macro_f1": 0.44922341696535245,
+  "accuracy": 0.5932203389830508,
+  "pipeline_path": "/Users/elmeri/Repositories/budget-tracker/ml/models/baseline/pipeline.joblib",
+  "test_data_path": "/Users/elmeri/Repositories/budget-tracker/ml/data/processed/test.csv",
+  "confusion_matrix_csv": "/Users/elmeri/Repositories/budget-tracker/ml/models/baseline/test_confusion_matrix.csv"
+}

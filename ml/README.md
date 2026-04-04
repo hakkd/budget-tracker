@@ -24,3 +24,24 @@
 - human review for low confidence predictions
 - retrain monthly
 - version model and category taxonomy together
+
+## Development
+
+### Python Virtual Environment Setup
+
+From the repo root:
+
+```
+python -m venv ml/ml
+
+source ml/ml/bin/activate
+
+pip install -r ml/requirements.txt
+```
+
+### Run Scripts
+
+From the repo root:
+
+1. `source ml/ml/bin/activate`
+2. `python -m ml.scripts.process_data_and_train_baseline_model`

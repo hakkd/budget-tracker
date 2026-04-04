@@ -1,0 +1,10 @@
+actual,dining_out,entertainment,grocery,misc_fees,other,recreation,subscriptions,transportation,travel
+dining_out,12,0,4,0,0,0,0,0,0
+entertainment,0,1,0,0,1,0,0,0,0
+grocery,0,0,11,0,2,0,0,0,0
+misc_fees,1,0,0,0,0,0,0,0,0
+other,4,1,2,0,6,0,0,0,1
+recreation,0,0,0,0,0,1,0,0,0
+subscriptions,1,0,0,0,0,0,0,0,0
+transportation,2,0,1,2,0,1,0,3,0
+travel,0,0,0,0,1,0,0,0,1
