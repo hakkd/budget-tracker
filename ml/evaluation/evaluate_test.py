@@ -1,8 +1,6 @@
 import joblib
 import json
 import pandas as pd
-import sys
-from pathlib import Path
 from sklearn.metrics import accuracy_score, confusion_matrix, f1_score
 
 from ml.config import DATA_DIR, PROJECT_ML_ROOT
