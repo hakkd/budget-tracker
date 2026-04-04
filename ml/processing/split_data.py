@@ -6,7 +6,13 @@ from ml.config import DATA_DIR, CLEAN_CSV_PATH
 if __name__ == "__main__":
     df = pd.read_csv(CLEAN_CSV_PATH)
 
-    train, test = train_test_split(df, test_size=0.30)
+    stratify = df["category"] if "category" in df.columns else None
+    train, test = train_test_split(
+        df,
+        test_size=0.30,
+        random_state=42,
+        stratify=stratify,
+    )
 
     output_dir = DATA_DIR / "processed"
     train_path = output_dir / "train.csv"
