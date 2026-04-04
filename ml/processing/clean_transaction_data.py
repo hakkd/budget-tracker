@@ -17,7 +17,14 @@ if __name__ == "__main__":
 
     df["merchant"] = df["Description"].fillna("").str.strip()
     df["amount"] = pd.to_numeric(df["Amount"], errors="coerce")
-    df["category"] = df["Category"].fillna("").str.strip().replace(CATEGORY_MAP)
+    df["category"] = (
+        df["Category"]
+        .fillna("")
+        .str.strip()
+        .str.replace(r"\s+", " ", regex=True)
+        .str.lower()
+        .replace(CATEGORY_MAP)
+    )
 
     # Keep only labeled, valid spend rows for supervised training
     df = df[df["category"] != ""]
