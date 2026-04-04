@@ -1,12 +1,11 @@
-import pandas as pd
-
-from ml.config import CSV_PATH, CLEAN_CSV_PATH
-
 """
 Expects input data to have columns Description,
 Amount, Category
 """
 
+import pandas as pd
+
+from ml.config import CSV_PATH, CLEAN_CSV_PATH
 CATEGORY_MAP = {
     "misc. fees": "misc_fees",
     "dining out": "dining_out",
