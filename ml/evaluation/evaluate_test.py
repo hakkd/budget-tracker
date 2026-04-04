@@ -4,24 +4,7 @@ import pandas as pd
 from sklearn.metrics import accuracy_score, confusion_matrix, f1_score
 
 from ml.config import DATA_DIR, PROJECT_ML_ROOT
-
-
-TARGET_COL = "category"
-TEXT_COL = "merchant"
-NUM_COL = "amount"
-
-
-def normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
-    out = df.copy()
-    out.columns = [col.strip().lower() for col in out.columns]
-    out = out.rename(columns={"description": "merchant"})
-
-    required = {TEXT_COL, NUM_COL, TARGET_COL}
-    missing = required.difference(out.columns)
-    if missing:
-        raise ValueError(f"Missing required columns in test set: {sorted(missing)}")
-
-    return out
+from ml.utils.data import normalize_columns, TARGET_COL, TEXT_COL, NUM_COL
 
 
 if __name__ == "__main__":
