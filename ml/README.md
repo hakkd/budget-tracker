@@ -29,17 +29,19 @@
 
 ### Python Virtual Environment Setup
 
+From the repo root:
+
 ```
-cd ml
+python -m venv ml/ml
 
-python -m venv ml
+source ml/ml/bin/activate
 
-source ml/bin/activate
-
-pip install -r requirements.txt
+pip install -r ml/requirements.txt
 ```
 
 ### Run Scripts
+
+From the repo root:
 
 1. `source ml/ml/bin/activate`
 2. `python -m ml.scripts.process_data_and_train_baseline_model`
