@@ -1,6 +1,6 @@
 from flask import Flask
 
-from config import Config
+from app.config import Config
 from .extensions import db, migrate
 from .routes.main import main_bp
 
@@ -12,7 +12,7 @@ def create_app(config_class: type[Config] = Config) -> Flask:
     db.init_app(app)
     migrate.init_app(app, db)
 
-    from . import models
+    from .models import transaction
 
     app.register_blueprint(main_bp)
 
